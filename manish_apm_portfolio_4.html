@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manish Chandra Reddy — APM Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0D0D;
+    --paper: #F5F0E8;
+    --accent: #E8450A;
+    --gold: #C9A84C;
+    --muted: #6B6355;
+    --card-bg: #FDFAF4;
+    --border: #DDD5C4;
+    --tag-bg: #EDE8DC;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 4rem;
+    background: rgba(245,240,232,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; }
+  .nav-links a {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: 'APM';
+    position: absolute;
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 28vw;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.05);
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .hero-left { position: relative; z-index: 2; }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-name span { color: var(--accent); }
+
+  .hero-bio {
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.85rem;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+  }
+
+  .tag.accent {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .btn-primary {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--accent); }
+
+  .btn-ghost {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--ink); }
+
+  .hero-right {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    width: 340px;
+    position: relative;
+    box-shadow: 12px 12px 0 var(--border);
+  }
+
+  .hero-card::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;
+    color: var(--accent);
+    opacity: 0.15;
+    position: absolute;
+    top: -1.5rem;
+    left: 1rem;
+    line-height: 1;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .stat-item { border-left: 2px solid var(--accent); padding-left: 0.75rem; }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 6rem 4rem; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 3.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--ink); color: var(--paper); }
+
+  #projects .section-label { color: var(--gold); }
+  #projects .section-label::after { background: rgba(255,255,255,0.1); }
+  #projects .section-title { color: var(--paper); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 2rem;
+    position: relative;
+    transition: all 0.3s;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    z-index: 0;
+  }
+
+  .project-card:hover::before { transform: scaleY(1); }
+  .project-card:hover { border-color: var(--accent); }
+  .project-card > * { position: relative; z-index: 1; }
+
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 1.25rem;
+    transition: color 0.3s;
+  }
+  .project-card:hover .project-num { color: rgba(255,255,255,0.7); }
+
+  .project-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--paper);
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-desc {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: rgba(245,240,232,0.6);
+    margin-bottom: 1.5rem;
+    transition: color 0.3s;
+  }
+  .project-card:hover .project-desc { color: rgba(255,255,255,0.9); }
+
+  .project-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255,255,255,0.05);
+    border-left: 2px solid var(--gold);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .project-card:hover .project-metrics { background: rgba(0,0,0,0.15); border-color: white; }
+
+  .metric-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    transition: color 0.3s;
+  }
+  .project-card:hover .metric-item { color: rgba(255,255,255,0.9); }
+
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
+
+  .p-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(245,240,232,0.7);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .project-card:hover .p-tag { background: rgba(0,0,0,0.15); border-color: rgba(255,255,255,0.3); color: white; }
+
+  .project-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s;
+  }
+  .project-card:hover .project-link { color: white; }
+  .project-link::after { content: '→'; transition: transform 0.2s; }
+  .project-link:hover::after { transform: translateX(4px); }
+
+  /* ── PM THINKING ── */
+  #thinking { background: var(--card-bg); }
+
+  .thinking-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .thinking-card {
+    border: 1px solid var(--border);
+    padding: 2rem;
+    background: var(--paper);
+    position: relative;
+  }
+
+  .thinking-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .thinking-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .thinking-text {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--paper); }
+
+  .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+
+  .skill-group { margin-bottom: 2rem; }
+
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skill-name {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .skill-bar-wrap {
+    width: 120px;
+    height: 3px;
+    background: var(--border);
+    position: relative;
+  }
+
+  .skill-bar {
+    height: 100%;
+    background: var(--accent);
+    transition: width 1s ease;
+  }
+
+  .skills-right-text {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .skills-right-text strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ── WHAT'S MISSING ── */
+  #missing { background: #FDF5EE; border-top: 1px solid var(--border); }
+
+  .missing-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .missing-card {
+    padding: 1.75rem;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .missing-card::after {
+    content: attr(data-num);
+    position: absolute;
+    bottom: -1rem;
+    right: 0.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(0,0,0,0.04);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .missing-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    margin-bottom: 0.75rem;
+  }
+  .badge-high { background: #FDECEA; color: #C0392B; }
+  .badge-med { background: #FEF3CD; color: #9A6E00; }
+  .badge-low { background: #E8F5E9; color: #2E7D32; }
+
+  .missing-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .missing-text {
+    font-size: 0.8rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    padding: 6rem 4rem;
+  }
+
+  #contact .section-label { justify-content: center; color: var(--gold); }
+  #contact .section-label::after, #contact .section-label::before {
+    content: '';
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  #contact .section-title { color: var(--paper); margin-bottom: 1rem; }
+
+  .contact-sub {
+    font-size: 1rem;
+    color: rgba(245,240,232,0.5);
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    color: var(--paper);
+    border: 1px solid rgba(255,255,255,0.2);
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .contact-link:hover { background: var(--accent); border-color: var(--accent); }
+  .contact-link.primary { background: var(--accent); border-color: var(--accent); }
+
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer span {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: rgba(245,240,232,0.3);
+    text-transform: uppercase;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.25s; }
+  .delay-3 { animation-delay: 0.4s; }
+  .delay-4 { animation-delay: 0.55s; }
+  .delay-5 { animation-delay: 0.7s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
+    .hero-right { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .projects-grid, .thinking-grid { grid-template-columns: 1fr; }
+    .missing-grid { grid-template-columns: 1fr 1fr; }
+    .skills-layout { grid-template-columns: 1fr; gap: 2rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Manish · Portfolio 2026</div>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#thinking">PM Thinking</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow fade-up">Aspiring APM · AI Product Builder</div>
+    <h1 class="hero-name fade-up delay-1">Gaddam<br><span>Manish</span><br>Chandra Reddy</h1>
+    <p class="hero-bio fade-up delay-2">Senior Systems Executive at Cognizant · PM Intern at SensAI.app · Pursuing Product Management with GenAI & Agentic AI at BITSoM. I bridge engineering and product — building AI-native tools that solve real, messy human problems.</p>
+    <div class="hero-tags fade-up delay-3">
+      <span class="tag accent">GenAI</span>
+      <span class="tag">SaaS</span>
+      <span class="tag">B2B</span>
+      <span class="tag">Fintech</span>
+      <span class="tag">AI Agents</span>
+      <span class="tag">BITSoM</span>
+      <span class="tag">n8n</span>
+      <span class="tag">Cognizant</span>
+    </div>
+    <div class="hero-cta fade-up delay-4">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="https://github.com/Manish-Chandra-Reddy" target="_blank" class="btn-ghost">GitHub ↗</a>
+    </div>
+  </div>
+
+  <div class="hero-right fade-up delay-3">
+    <div class="hero-card">
+      <div class="stat-grid">
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">AI Products Built</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">PRDs Written</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Domains Covered</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">7M+</div>
+          <div class="stat-label">Target Users (P3)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Case Studies</div>
+  <h2 class="section-title">3 Products.<br>3 Real Problems.</h2>
+
+  <div class="projects-grid">
+
+    <!-- Project 1: Sales Agent -->
+    <div class="project-card">
+      <div class="project-num">01 / PRD + FIGMA + n8n · SALES TECH</div>
+      <h3 class="project-title">AI-Powered Client Insight Agent</h3>
+      <p class="project-desc">Sales reps spent 1–2 hours per meeting across 4–6 tools, causing fragmented insights and inconsistent readiness. This AI workflow agent auto-curates financial data, news, LinkedIn, and CRM signals — compressing 7 manual prep steps into 2 clicks. Built end-to-end with PRD, Figma flows, n8n automation & demo video.</p>
+      <div class="project-metrics">
+        <div class="metric-item">⏱️ Reduced prep steps from 7 manual actions → 2 clicks</div>
+        <div class="metric-item">📉 Goal: 50% prep-time reduction · 75% preparedness score</div>
+        <div class="metric-item">💰 Target: 10–15% uplift in opportunity-to-deal conversion</div>
+        <div class="metric-item">📊 KPI: 80% weekly active adoption within first quarter</div>
+      </div>
+      <div class="project-tags">
+        <span class="p-tag">PRD</span>
+        <span class="p-tag">Figma</span>
+        <span class="p-tag">n8n Automation</span>
+        <span class="p-tag">B2B SaaS</span>
+        <span class="p-tag">CRM + Calendar APIs</span>
+        <span class="p-tag">Demo Video</span>
+      </div>
+      <a href="https://github.com/Manish-Chandra-Reddy/AI-Sales-Agent-Workflow" target="_blank" class="project-link">View on GitHub</a>
+    </div>
+
+    <!-- Project 2: Job Tracker -->
+    <div class="project-card">
+      <div class="project-num">02 / AI AGENT · CAREER TECH</div>
+      <h3 class="project-title">AI Job Application Tracking Agent</h3>
+      <p class="project-desc">Job seekers spend hours manually tailoring resumes, tracking applications, and deciphering rejections. This AI agent automates the full application lifecycle — from JD analysis to rejection learning — treating the candidate profile as a dynamic, evolving state.</p>
+      <div class="project-metrics">
+        <div class="metric-item">⚡ Problem: Fragmented, manual job search process</div>
+        <div class="metric-item">🎯 Solution: 4-module AI lifecycle agent</div>
+        <div class="metric-item">🔧 Stack: Python · Streamlit · Claude Opus 4.6</div>
+      </div>
+      <div class="project-tags">
+        <span class="p-tag">JD Analysis</span>
+        <span class="p-tag">Resume Tailoring</span>
+        <span class="p-tag">Rejection AI</span>
+        <span class="p-tag">Learning Engine</span>
+      </div>
+      <a href="https://github.com/Manish-Chandra-Reddy/AI-Job-Application-Tracking-Agent" target="_blank" class="project-link">View on GitHub</a>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="project-card">
+      <div class="project-num">03 / LIVE APP · FINTECH</div>
+      <h3 class="project-title">Saarthi — Smart Financial Companion for Gig Workers</h3>
+      <p class="project-desc">India's 7–8M gig delivery workers are locked out of formal finance. Saarthi is a voice-first, vernacular fintech app built for Swiggy/Zomato riders — helping them save, track irregular income, access micro-insurance, and build financial literacy. Live on Lovable.</p>
+      <div class="project-metrics">
+        <div class="metric-item">🇮🇳 Segment: Riders in Tier-1/2 cities, ₹16k–35k/month</div>
+        <div class="metric-item">🗣️ Goal: 70% users engage via vernacular voice in 30 days</div>
+        <div class="metric-item">💡 KPI: 50% act on ≥1 AI suggestion (e.g. auto-save ₹500/week)</div>
+      </div>
+      <div class="project-tags">
+        <span class="p-tag">Live App</span>
+        <span class="p-tag">Fintech</span>
+        <span class="p-tag">Voice-first</span>
+        <span class="p-tag">Vernacular</span>
+        <span class="p-tag">Gig Economy</span>
+      </div>
+      <a href="https://saarthi-v1.lovable.app/onboarding/trust" target="_blank" class="project-link">Try Live App</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- PM THINKING -->
+<section id="thinking">
+  <div class="section-label">How I Think</div>
+  <h2 class="section-title">PM Principles<br>I Build By</h2>
+
+  <div class="thinking-grid">
+    <div class="thinking-card">
+      <div class="thinking-icon">🔍</div>
+      <h3 class="thinking-title">Problem Before Solution</h3>
+      <p class="thinking-text">Every project starts with a crisp problem statement and user segment definition before a single line of code or design. I write Problem Statements as standalone documents to pressure-test the "why" before the "what."</p>
+    </div>
+    <div class="thinking-card">
+      <div class="thinking-icon">📏</div>
+      <h3 class="thinking-title">Success Has Numbers</h3>
+      <p class="thinking-text">Vague goals lead to vague products. I define quantitative success metrics upfront — conversion rates, engagement rates, time-savings — so product decisions stay honest and accountable to real outcomes.</p>
+    </div>
+    <div class="thinking-card">
+      <div class="thinking-icon">👥</div>
+      <h3 class="thinking-title">Specific Users, Not Averages</h3>
+      <p class="thinking-text">From gig riders with entry-level Androids in Tier-2 cities, to enterprise sales reps in B2B SaaS — I obsess over the specific human, not the generic persona. Real constraints drive better product decisions.</p>
+    </div>
+    <div class="thinking-card">
+      <div class="thinking-icon">⚡</div>
+      <h3 class="thinking-title">Builder Mentality</h3>
+      <p class="thinking-text">As an engineer-turned-PM, I build MVPs to validate hypotheses — not just write docs. Shipping Saarthi as a live app, or building an actual Streamlit agent, grounds my product thinking in technical reality.</p>
+    </div>
+    <div class="thinking-card">
+      <div class="thinking-icon">🌀</div>
+      <h3 class="thinking-title">AI as Infrastructure</h3>
+      <p class="thinking-text">I see GenAI not as a feature, but as the core infrastructure of next-generation products. Each project treats AI agents, semantic analysis, and LLMs as foundational product layers — not bolt-ons.</p>
+    </div>
+    <div class="thinking-card">
+      <div class="thinking-icon">🎯</div>
+      <h3 class="thinking-title">Cross-Functional Clarity</h3>
+      <p class="thinking-text">My PRDs include target segments, stakeholder maps, KPIs, and Figma prototypes — bridging engineering, design, and business. Good PM work eliminates ambiguity before it becomes a costly misalignment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="background: var(--card-bg); border-top: 1px solid var(--border);">
+  <div class="section-label">Background</div>
+  <h2 class="section-title">Experience &<br>Education</h2>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+    <div>
+      <div style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-bottom:1.5rem; padding-bottom:0.5rem; border-bottom:1px solid var(--border);">Work Experience</div>
+
+      <div style="margin-bottom:2rem; padding-left:1rem; border-left:2px solid var(--accent);">
+        <div style="font-family:'DM Mono',monospace; font-size:0.6rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.25rem;">Aug 2024 – Present</div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; margin-bottom:0.2rem;">Senior Systems Executive</div>
+        <div style="font-size:0.85rem; color:var(--accent); font-weight:600; margin-bottom:0.6rem;">Cognizant · Hyderabad</div>
+        <p style="font-size:0.85rem; color:var(--muted); line-height:1.7;">Managed end-to-end lifecycle of critical production issues as central orchestrator between Engineering, Support, and Customer-facing teams. Used Dynatrace for technical discovery and translated system data into actionable stakeholder communications.</p>
+      </div>
+
+      <div style="margin-bottom:2rem; padding-left:1rem; border-left:2px solid var(--gold);">
+        <div style="font-family:'DM Mono',monospace; font-size:0.6rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.25rem;">Jun 2025 – Oct 2025</div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; margin-bottom:0.2rem;">Product Manager Intern</div>
+        <div style="font-size:0.85rem; color:var(--accent); font-weight:600; margin-bottom:0.6rem;">SensAI.app · Non-Profit Startup</div>
+        <p style="font-size:0.85rem; color:var(--muted); line-height:1.7;">Built product roadmaps and prioritization frameworks from scratch. Collaborated with engineering teams in Brazil and hardware teams in the Netherlands. Conducted user research, gathered requirements, and drove cross-functional alignment for user-centric delivery.</p>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-bottom:1.5rem; padding-bottom:0.5rem; border-bottom:1px solid var(--border);">Education & Certifications</div>
+
+      <div style="margin-bottom:2rem; padding-left:1rem; border-left:2px solid var(--accent);">
+        <div style="font-family:'DM Mono',monospace; font-size:0.6rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.25rem;">Jul 2025 – Present</div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; margin-bottom:0.2rem;">Product Management with GenAI & Agentic AI</div>
+        <div style="font-size:0.85rem; color:var(--accent); font-weight:600;">BITS School of Management (BITSoM)</div>
+      </div>
+
+      <div style="margin-bottom:2rem; padding-left:1rem; border-left:2px solid var(--border);">
+        <div style="font-family:'DM Mono',monospace; font-size:0.6rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.25rem;">2020 – 2024</div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; margin-bottom:0.2rem;">B.Tech, Electronics & Instrumentation</div>
+        <div style="font-size:0.85rem; color:var(--accent); font-weight:600;">VNR Vignana Jyothi Institute · Hyderabad</div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:0.6rem; margin-top:1rem;">
+        <div style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-bottom:0.25rem;">Certifications</div>
+        <div style="display:flex; align-items:center; gap:0.75rem; font-size:0.85rem;">
+          <span style="color:var(--accent);">▸</span> McKinsey.org Forward Program
+        </div>
+        <div style="display:flex; align-items:center; gap:0.75rem; font-size:0.85rem;">
+          <span style="color:var(--accent);">▸</span> AWS Certified Cloud Practitioner
+        </div>
+        <div style="display:flex; align-items:center; gap:0.75rem; font-size:0.85rem;">
+          <span style="color:var(--accent);">▸</span> Machine Learning Specialization — Stanford / Coursera
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Capabilities</div>
+  <h2 class="section-title">Skills &<br>Toolkit</h2>
+
+  <div class="skills-layout">
+    <div>
+      <div class="skill-group">
+        <div class="skill-group-title">Product Execution</div>
+        <div class="skill-item"><span class="skill-name">PRD Writing & Feature Specs</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:90%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">User Stories & Acceptance Criteria</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Backlog Management & Sprint Planning</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Wireframing & Prototyping</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">A/B Testing</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Strategy & Research</div>
+        <div class="skill-item"><span class="skill-name">User Research & Usability Testing</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:87%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Competitor & Market Analysis</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:83%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">KPIs, Funnels & Data-Driven Decisions</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Agile / Scrum & Cross-functional Collab</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:84%"></div></div></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Tools & Tech</div>
+        <div class="skill-item"><span class="skill-name">Jira · Confluence · Notion</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:83%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Figma</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">n8n · Lovable · Google Analytics</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Python · Streamlit · LLMs</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Dynatrace (Observability)</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:72%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">AWS Cloud (Certified)</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:70%"></div></div></div>
+      </div>
+    </div>
+    <div>
+      <p class="skills-right-text" style="margin-bottom:2rem;">
+        I bring a rare combination: <strong>enterprise execution experience</strong> from Cognizant, deep <strong>technical fluency</strong> as an engineer, and a <strong>product-first mindset</strong> honed through building real AI products from scratch.
+      </p>
+      <p class="skills-right-text" style="margin-bottom:2rem;">
+        My edge as an APM candidate is that I don't just theorize about AI products — I <strong>build and ship them</strong>. From a live fintech app (Saarthi) to a functioning AI agent (Job Tracker), I validate ideas with working software.
+      </p>
+      <p class="skills-right-text" style="margin-bottom:2rem;">
+        I've developed full <strong>PRDs with problem statements, user segments, success metrics, and Figma prototypes</strong> — demonstrating end-to-end product thinking that spans discovery to delivery.
+      </p>
+      <p class="skills-right-text">
+        Domain experience spans <strong>HRtech, SalesTech, and Fintech</strong> — with a strong lens on <strong>underserved markets</strong> (gig economy, emerging India) and <strong>enterprise B2B</strong> sales automation.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Get In Touch</div>
+  <h2 class="section-title">Let's Build<br>Something Together</h2>
+  <p class="contact-sub">Open to APM roles, product conversations, and collaborations in GenAI and SaaS. Based in Hyderabad, open to remote.</p>
+  <div class="contact-links">
+    <a href="https://github.com/Manish-Chandra-Reddy" target="_blank" class="contact-link primary">GitHub ↗</a>
+    <a href="mailto:manishreddy0921@gmail.com" class="contact-link">manishreddy0921@gmail.com</a>
+    <a href="tel:+917075069153" class="contact-link">+91 70750 69153</a>
+    <a href="https://www.linkedin.com/in/manish-chandra-reddy-33204336b" target="_blank" class="contact-link">LinkedIn ↗</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Gaddam Manish Chandra Reddy · manishreddy0921@gmail.com</span>
+  <span>BITSoM PM · Cognizant · SensAI.app · Hyderabad</span>
+</footer>
+
+<script>
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.project-card, .thinking-card, .skill-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
